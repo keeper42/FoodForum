@@ -1,0 +1,24 @@
+body {
+
+	background-color: #ece5cb;
+}
+area{
+	cursor:pointer;
+}
+.picview{
+	overflow: hidden;
+}
+.picview img{
+	 cursor: url(openhand.cur),auto; 
+}
+.narrow{
+	position: fixed; right:40px;top:130px;
+	width: 40px;
+	height: 40px;
+}
+.enlarge{
+	position:fixed;right:40px;top:70px;
+	width:40px;
+	height:40px;
+}
+
