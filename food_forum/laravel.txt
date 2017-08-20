@@ -1,0 +1,159 @@
+路由
+    路由用来接收请求，并转发给控制器中的方法
+控制器
+    控制器可调用模型中的方法
+
+数据库操作方式
+    DB facade(原始查找)
+    查询构造器
+    Eloquent ORM
+
+    DB facade
+        [Navicat]
+        使用SQL新建数据表报错: 
+        	[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column 'information_schema.PROFILING.SEQ' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+        解决方法: 
+            SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));	
+        
+        [xampp]
+        无法启动MySQL:
+            MySql Error ERROR 2003 (HY000): Can't connect to MySQL server on 'localhost' (10061)
+        解决方法:
+    	    If you have XAMPP installed, then to start mysql associated with it, navigate to
+
+    	    C:\xampp\mysql\bin>
+    	    then type the command: mysqld -u root -p
+
+    	    It will output:
+    	    '2017-04-04 13:40:27 8536 [Note] mysqld (mysqld 10.1.21-MariaDB) starting as process 5640 ...'
+    	    This shows mysql is started.
+
+    	    Now type your command: mysql -u root -p, it will work for sure.
+
+        [phpmyadmin]
+        在config.inc.php设置登录认证:
+            $cfg['Servers'][$i]['auth_type'] = 'http';
+            或
+            $cfg['Servers'][$i]['auth_type'] = 'cookie';
+
+        使用DB facade实现CURD
+
+    查询构造器
+        1. 提供方便、流畅的接口，用来建立及执行数据库查找语法
+        2. 使用PDO参数绑定，以保护应用程序免于SQL注入，因此传入的参数不需要额外转义特殊字符
+        3. 基本可以满足所有的数据库操作，而且在所有支持的数据库系统上都能执行
+
+    Eloquent ORM
+        简介
+            每个数据表都有一个与之相对应的“模型”用于和数据表交互
+        Eloquent ORM简介、模型的建立及查询数据
+            all(), find(), findOrFail()
+            查询构造器询构造器在ORM中的使用
+        Eloquent ORM中新增数据、自定义时间戳及批量赋值的使用
+        使用Eloquent ORM修改数据
+        使用Eloquent ORM删除数据
+
+Blade模板引擎
+    Blade模板引擎简介
+        Blade并不限制在视图View中使用原生的PHP代码,
+        所有Blade视图页面都将被编译成原生的PHP代码并缓存起来,
+        除非模板文件被修改了, 否则不会重新编译
+        
+    模板继承的使用(layout.blade.php)
+        section 
+        yield
+        extends
+        parent
+
+        @section和@yield的区别
+        @section既可以单独显示父模板的默认内容，也可以单独显示子模板的新内容，通过@parent还可以同时显示父子模板中的内容
+        而@yield只能显示其中一个，子模板不定义，就用父模板默认的，子模板定义，父模板的内容会被覆盖，通过@parent也不能显示。
+
+    基础语法及include的使用
+        模板中输出变量
+        模板中调用PHP代码
+        原样输出
+        模板中的注释
+        引用自视图include的使用
+
+    流程控制
+
+    模板中的URL
+        url()
+        action()
+        route()
+
+Controller
+    Request
+    Response
+    Session
+    Middleware
+
+    Request
+        Laravel中的请求使用的是symfony/http-foundation组件
+        请求中存放了$_GET, $_POST, $_COOKIE, $_FILES, $_SERVER等数据
+
+    Session
+        由于HTTP协定是无状态的，所以session提供一种保存用户数据的方法
+        Laravel支持多种session后端驱动，并提供清楚、统一的API，
+        也内置支持Memcached、Redis和数据库的后端驱动，默认使用“file中的Session驱动
+        session的配置文件在config/session.php中
+
+        HTTP中request的session()方法
+        session()辅助函数
+        Session facade
+
+    Response
+        响应常见类型: 字符串、视图、Json、重定向
+
+    Middleware
+        Laravel中间件提供一个方便的机制过滤进入应用程序的HTTP请求
+
+
+Composer
+    简介: 
+        Composer是PHP的一个依赖管理工具，不是一个包管理器。它涉及"packages"和"libraries"
+        在项目中声明所依赖的外部工具库，Composer会自动安装这些工具库及依赖库文件
+
+Artian控制台
+    Artian是Laravel中自带的命令行工具
+    有强大的Symfony Console组件驱动
+    提供了一些对开发有帮助的命令 
+
+    查看所有可用的Artisan的命令(list)
+        php artisan   
+        php artisan list
+    查看命令的帮助信息
+        php artisan help migrate (数据迁移)
+    Artisan创建控制器
+        php artisan make:controller StudentController
+    Artisan创建模型
+        php artisan make:model Student
+    Artisan创建中间件
+        php artisan make:middleware Activity
+
+Laravel中的用户认证(Auth)
+    生产Auth所需文件 
+        php artisan make:auth
+
+    数据迁移
+        php artisan make:migration create_students_table
+        --table 和 --create参数可以用来指定数据表名称，以及迁移文件是否要建立新的数据表
+        
+        生成模型时同时生成[迁移文件]
+        php artisan make:model Student -m 
+
+    数据填充
+        创建一个填充文件，并完善填充文件
+            php artisan make:seeder StudentTableSeeder
+        执行单个填充文件
+            php artisan db:seed --class=StudentTableSeeder
+        批量执行填充文件
+            php artisan db:seed
+
+Laravel框架的常用功能
+    文件上传
+    邮件发送
+    缓存使用
+    错误与日志
+    队列应用
